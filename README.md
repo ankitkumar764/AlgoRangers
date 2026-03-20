@@ -1,203 +1,190 @@
-# 🚀 AI-Adaptive Onboarding & Career Acceleration Engine
+# 🚀 SkillGraph AI — Adaptive Onboarding & Career Acceleration Engine
 
-An intelligent system that analyzes a candidate’s resume against a target job description and generates a **personalized, adaptive learning roadmap**.
+> Explainable Skill Intelligence System with Graph-Based Learning Optimization
+
+---
+
+## 🧠 Overview
+
+SkillGraph AI is an advanced system that analyzes a candidate’s **Resume** against a **Job Description (JD)** and generates a **personalized, adaptive learning roadmap**.
+
+Unlike traditional systems, it does not simply recommend content — it:
+
+* ✅ Verifies user skills (not blind trust)
+* ✅ Identifies true skill gaps
+* ✅ Understands skill dependencies
+* ✅ Generates optimized learning paths
+* ✅ Explains every decision (Reasoning Trace)
+* ✅ Supports both **job seekers and companies**
+
+👉 This is not a recommender system.
+👉 This is a **Skill Decision Engine**.
 
 ---
 
 ## 🎯 Problem Statement
 
-Traditional onboarding systems are static and inefficient:
+Current onboarding and learning systems are inefficient:
 
-* Experienced users waste time
-* Beginners feel overwhelmed
+* ❌ One-size-fits-all training
+* ❌ Experienced users waste time
+* ❌ Beginners get overwhelmed
+* ❌ No explanation behind recommendations
 
-👉 Our solution creates a **dynamic, AI-driven personalized learning path**.
+👉 There is no system that connects:
+**Hiring → Skill Validation → Learning → Onboarding**
 
 ---
 
-## 💡 Solution Overview
+## 🧨 What Makes This System Different
 
-The system:
-
-1. Extracts skills from Resume & JD
-2. Identifies skill gaps
-3. Validates skill levels
-4. Generates adaptive roadmap
-5. Provides reasoning
-6. Calculates readiness score
+* ❌ Does NOT trust resumes blindly
+* ✅ Verifies skills using validation logic
+* ✅ Uses dependency-aware skill graph
+* ✅ Generates optimized learning sequence (not random suggestions)
+* ✅ Provides reasoning trace for every decision
+* ✅ Fully grounded (no hallucinated outputs)
 
 ---
 
 ## ⚙️ System Workflow
 
-```
+```text
 Resume + JD
      ↓
 Skill Extraction
      ↓
-Skill Gap Detection
+Skill Normalization
      ↓
 Confidence Scoring
      ↓
-Adaptive Roadmap
+Skill Validation (Quiz / Logic)
      ↓
-Reasoning + Output
+Final Skill Score
+     ↓
+Weighted Skill Gap Analysis
+     ↓
+Skill Dependency Graph (DAG)
+     ↓
+Adaptive Path Generation
+     ↓
+Course Grounding
+     ↓
+Reasoning Trace + Output
 ```
 
 ---
 
-# 👥 Team Structure & Responsibilities
+## 🧠 Core Intelligence
 
-## 🧠 Ankit (Backend + AI + Logic)
+### 🔹 Skill Confidence
 
-**Role:** System Brain (Core Intelligence)
+Confidence is calculated using:
 
-### Responsibilities:
-
-#### 🔹 Skill Extraction Engine
-
-* Parse Resume & JD
-* Extract and normalize skills
-
-#### 🔹 Skill Gap Logic
-
-```
-Missing Skills = JD Skills - User Skills
-```
-
-#### 🔹 Confidence Scoring
-
-* Skill frequency
+* Frequency in resume
 * Project mentions
 * Experience signals
 
-#### 🔹 Adaptive Roadmap Generator
+---
 
-* Strong → Skip
-* Medium → Revise
-* Weak → Learn
+### 🔹 Skill Validation
 
-#### 🔹 Reasoning Trace
+We verify skills using micro-assessments:
 
-* Explain WHY each step is added
-
-#### 🔹 Interview Readiness Score
-
-* Generate % score
-
-#### 🔹 Backend APIs (FastAPI)
-
-* `/parse-resume`
-* `/parse-jd`
-* `/analyze-gap`
-* `/generate-roadmap`
-* `/get-score`
-
-#### 🔹 AI Integration
-
-* Prompt design
-* LLM usage
-* Response formatting
+* Conceptual questions
+* Scenario-based questions
 
 ---
 
-## 💻 Raushan (Frontend + UI/UX + Integration)
+### 🔹 Weighted Skill Gap
 
-**Role:** System Interface (User Experience)
-
-### Responsibilities:
-
-#### 🔹 UI Development (React)
-
-* Upload Page
-* Result Dashboard
-* (Optional) Quiz Page
-
-#### 🔹 File Upload System
-
-* Resume upload
-* JD input
-
-#### 🔹 Result Visualization
-
-Display:
-
-* Extracted skills
-* Missing skills
-* Roadmap
-* Readiness score
-
-#### 🔹 Roadmap UI
-
-* Step-by-step timeline
-* Clean card layout
-
-#### 🔹 API Integration
-
-* Connect frontend with backend APIs
-
-#### 🔹 Reasoning Display
-
-* Expandable explanation section
-
-#### 🔹 UX Enhancements
-
-* Loading states
-* Error handling
-* Clean UI
+```
+gap = importance × (required - current)
+```
 
 ---
 
-# 🤝 Shared Responsibilities
+### 🔹 Dependency-Aware Pathing
 
-### 🧪 Testing
+Skills are structured as a graph:
 
-* Beginner vs advanced cases
-* Fake resume testing
+```
+JavaScript → React → System Design
+          → Node → Microservices
+```
 
----
+The system ensures:
 
-### 🎥 Demo Video
-
-* Ankit → backend logic
-* Raushan → UI demo
-
----
-
-### 📊 Presentation (5 Slides)
-
-**Ankit:**
-
-* Architecture
-* Algorithm
-
-**Raushan:**
-
-* UI/UX
-* User flow
+* prerequisites are satisfied
+* learning order is logical
 
 ---
 
-### 📄 README Finalization
+## 🧾 Reasoning Trace Example
 
-* Ankit → logic
-* Raushan → formatting
+```
+Skill: React
+
+Reason:
+- Required by Job Description  
+- Missing in user profile  
+- Depends on JavaScript  
+
+→ Therefore, JavaScript is recommended first
+```
+
+---
+
+## 🧠 Core Features
+
+* Intelligent Skill Extraction
+* Skill Gap Analysis (weighted)
+* Confidence Scoring
+* Skill Validation (quiz-based)
+* Adaptive Learning Path
+* Reasoning Trace
+* Interview Readiness Score
+* Hiring Intelligence
+
+---
+
+## 🏢 Company Use Case
+
+SkillGraph AI enables companies to:
+
+* Generate personalized onboarding plans
+* Identify employee skill gaps
+* Reduce training time
+* Improve hiring decisions
+
+### Example Output:
+
+* Skill Match: 75%
+* Verified Skill: 60%
+* Recommendation: Trainable candidate (2 weeks)
 
 ---
 
 ## 🏗️ Tech Stack
 
-Frontend:
+### Frontend
 
 * React.js
+* TailwindCSS
+* ShadCN UI
 
-Backend:
+### Backend
 
 * FastAPI (Python)
 
-AI:
+### AI / NLP
 
 * OpenAI / LLM APIs
+* Sentence Transformers
+
+### Database
+
+* MongoDB
 
 ---
 
@@ -206,125 +193,95 @@ AI:
 ```
 project/
 │
-├── frontend/        # React UI (Raushan)
-├── backend/         # FastAPI APIs (Ankit)
-├── models/          # AI logic
-├── data/            # Skill datasets
+├── frontend/
+├── backend/
+├── models/
+├── data/
 ├── README.md
 └── Dockerfile
 ```
 
 ---
 
-## 🚀 Setup Instructions
+## 👥 Team Responsibilities
 
-### 🔧 Backend Setup (Ankit)
+### 🧠 Ankit — Backend + AI + Core Logic
 
-```
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
+* Skill extraction engine
+* Skill normalization
+* Confidence scoring
+* Skill validation system
+* Skill gap algorithm
+* Graph-based adaptive engine
+* Reasoning logic
+* Backend APIs (FastAPI)
 
 ---
 
-### 💻 Frontend Setup (Raushan)
+### 💻 Raushan — Frontend + UI/UX + Integration
 
-```
-cd frontend
-npm install
-npm start
-```
+* UI/UX design
+* Upload interface
+* Dashboard visualization
+* Roadmap visualization
+* Reasoning display
+* API integration
+* User interaction & flow
+
+---
+
+## 🤝 Shared Responsibilities
+
+* Testing (edge cases, fake resumes)
+* Demo video
+* Presentation (5 slides)
+* Final documentation
 
 ---
 
 ## 📥 Usage
 
 1. Upload Resume
-2. Upload / Paste JD
+2. Paste Job Description
 3. Click Analyze
 4. View:
 
    * Skills
-   * Missing skills
+   * Gap
    * Roadmap
    * Reasoning
+   * Readiness Score
 
 ---
 
-## 🧠 Core Logic
+## 📊 Evaluation Alignment
 
-### Skill Gap
-
-```
-Missing = JD - Resume
-```
-
-### Adaptive Path
-
-```
-Strong → Skip  
-Medium → Revise  
-Weak → Learn  
-```
+* Technical Sophistication → Graph-based adaptive engine
+* Reliability → Dataset-grounded outputs
+* Reasoning Trace → Fully explainable decisions
+* UX → Clean visualization
+* Scalability → Multi-domain support
 
 ---
 
-## 🧪 Example Output
+## 🔮 Future Improvements
 
-```json
-{
-  "missing_skills": ["React"],
-  "roadmap": [
-    {
-      "step": 1,
-      "title": "JS Advanced",
-      "type": "revise"
-    },
-    {
-      "step": 2,
-      "title": "React Basics",
-      "type": "learn"
-    }
-  ]
-}
-```
+* Real-time feedback loop
+* Reinforcement learning optimization
+* Skill decay tracking
+* Cross-domain skill transfer
 
 ---
 
-## 📅 Development Timeline
+## 🏆 Final Statement
 
-### Day 1
+SkillGraph AI transforms onboarding from:
 
-* Planning + setup
+❌ Static training
+→
+✅ Intelligent, adaptive skill evolution
 
-### Day 2
-
-* Backend logic (Ankit)
-* Basic UI (Raushan)
-
-### Day 3
-
-* API integration
-
-### Day 4
-
-* Add reasoning + score
-
-### Day 5
-
-* Testing + polish
-
-### Day 6
-
-* Demo + PPT
-
----
-
-## 🏆 Final Goal
-
-👉 Build a system that acts like:
-
-**“An AI Mentor that understands a user’s skills and guides them step-by-step to job readiness.”**
+👉 Bridging:
+**Learning ↔ Hiring ↔ Productivity**
 
 ---
