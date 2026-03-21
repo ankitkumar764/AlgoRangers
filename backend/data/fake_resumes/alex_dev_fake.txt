@@ -1,0 +1,20 @@
+# Fake Resume: Alex Developer
+Email: alex@example.com
+Phone: 123-456-7890
+
+## Summary
+Experienced Backend Developer with a focus on React and FastAPI. 
+Built several production projects using TailwindCSS and Docker.
+
+## Skills
+- React (Advanced)
+- FastAPI (Intermediate)
+- Docker (Expert)
+- TailwindCSS (Expert)
+- PostgreSQL
+- AWS (S3, EC2)
+- CI/CD (GitLab)
+
+## Projects
+- Project SkillGraph: Built an AI engine using FastAPI and React.
+- Project CloudGuard: Deployed microservices using Docker and AWS.

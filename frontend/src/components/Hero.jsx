@@ -53,6 +53,7 @@ const Hero = ({ onAnalyze }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
+        id="upload-form"
         className="glass max-w-4xl mx-auto p-10 grid grid-cols-1 md:grid-cols-2 gap-8 rounded-[32px] border-surface-border relative z-20"
       >
         {/* Resume Upload */}

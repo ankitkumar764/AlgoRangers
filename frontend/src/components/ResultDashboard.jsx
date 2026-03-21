@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Info, Download, Share2, RefreshCcw, TrendingUp, Clock, Award, ShieldCheck } from 'lucide-react';
 import SkillRadar from './SkillRadar';
 import MagneticButton from './MagneticButton';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { toPng } from 'html-to-image';
+import { jsPDF } from 'jspdf';
 
 const CATEGORIES = {
   "Backend": ["Node.js", "FastAPI", "Python", "Go", "Java", "Ruby", "PHP", "Express", "Django"],
@@ -27,6 +27,7 @@ const ResultDashboard = ({
   onRetry 
 }) => {
   const dashboardRef = useRef(null);
+  const radarRef = useRef(null);
 
   if (error) {
     return (
@@ -77,21 +78,81 @@ const ResultDashboard = ({
     requirement: requirementScores
   };
 
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  };
+
   const handleExportPDF = async () => {
-    const element = dashboardRef.current;
-    if (!element) return;
-    const canvas = await html2canvas(element, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-surface-bg').trim()
-    });
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save('AlgoRangers-Roadmap-Analysis.pdf');
+    try {
+      const element = dashboardRef.current;
+      if (!element) return;
+      
+      const imgData = await toPng(element, {
+        pixelRatio: window.devicePixelRatio || 1.5,
+        backgroundColor: '#0a0a0a'
+      });
+      
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('AlgoRangers-Roadmap-Analysis.pdf');
+    } catch (e) {
+      console.error("PDF Export failed:", e);
+      alert("Failed to export PDF: " + (e.message || "Unknown error"));
+    }
+  };
+
+  const handleExportGraph = async () => {
+    try {
+      const element = radarRef.current;
+      if (!element) return;
+      
+      const imgData = await toPng(element, {
+        pixelRatio: window.devicePixelRatio || 2,
+        backgroundColor: '#0a0a0a'
+      });
+      
+      let shared = false;
+      
+      if (navigator.share) {
+        try {
+          const blob = dataURItoBlob(imgData);
+          const file = new File([blob], 'AlgoRangers-Verified-Graph.png', { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: 'My AI Verified Skills',
+              text: 'Check out my AI verified skill graph from AlgoRangers!',
+              files: [file]
+            });
+            shared = true;
+          }
+        } catch (shareError) {
+          console.warn("Web Share API failed, falling back to download:", shareError);
+        }
+      }
+      
+      if (!shared) {
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'AlgoRangers-Verified-Graph.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (e) {
+      console.error("Graph Export failed:", e);
+      alert("Failed to export Graph image: " + (e.message || "Unknown error"));
+    }
   };
 
   return (
@@ -104,6 +165,7 @@ const ResultDashboard = ({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="glass p-8 text-center rounded-[32px] border-surface-border flex flex-col items-center"
+            ref={radarRef}
           >
             <div className="flex justify-between w-full mb-6 relative z-20">
                <h3 className="text-sm font-extrabold text-surface-muted uppercase tracking-widest">Market Alignment</h3>
@@ -205,7 +267,10 @@ const ResultDashboard = ({
              >
                 <Download size={20} /> Download Intelligence PDF
              </MagneticButton>
-             <MagneticButton className="glass py-5 rounded-[24px] font-black text-sm border-surface-border text-surface-text hover:bg-surface-text/5 transition-all flex items-center justify-center gap-3">
+             <MagneticButton 
+               onClick={handleExportGraph}
+               className="glass py-5 rounded-[24px] font-black text-sm border-surface-border text-surface-text hover:bg-surface-text/5 transition-all flex items-center justify-center gap-3 active:scale-95"
+             >
                 <Share2 size={20} /> Export AI-Verified Graph
              </MagneticButton>
           </div>

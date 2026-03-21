@@ -1,7 +1,6 @@
 /**
- * AlgoRangers API Service Layer
- * This service handles all interactions with the Backend SkillGraph Engine.
- * Integrated with FastAPI Backend on http://localhost:8000
+ * AlgoRangers AI Decision Engine — API Service Layer v2.0
+ * Unified /analyze endpoint: deterministic, explainable, graph-optimized.
  */
 
 const BASE_URL = 'http://localhost:8000';
@@ -14,87 +13,82 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
+/**
+ * Primary analysis pipeline — single call returns all 10 intelligence outputs.
+ */
 export const analyzeResume = async (resumeFile, jobDescription) => {
-  console.log("Starting Full-Stack Analysis...", { resumeFile, jobDescription });
+  console.log("AlgoRangers AI Decision Engine — Starting Full Pipeline...");
 
   try {
-    // 1. Parse Resume
     const formData = new FormData();
     formData.append('file', resumeFile);
-    const resumeResponse = await fetch(`${BASE_URL}/parse-resume`, {
+    formData.append('jd_text', jobDescription);
+
+    const response = await fetch(`${BASE_URL}/analyze`, {
       method: 'POST',
       body: formData,
     });
-    const resumeData = await handleResponse(resumeResponse);
-    const resumeSkillsFull = resumeData.skills;
-    const resumeSkills = resumeSkillsFull.map(s => s.name);
+    const data = await handleResponse(response);
 
-    // 2. Parse JD
-    const jdFormData = new FormData();
-    jdFormData.append('jd_text', jobDescription);
-    const jdResponse = await fetch(`${BASE_URL}/parse-jd`, {
-      method: 'POST',
-      body: jdFormData,
-    });
-    const jdData = await handleResponse(jdResponse);
-    const jdSkillsFull = jdData.skills;
-    const jdSkills = jdSkillsFull.map(s => s.name);
-
-    // 3. Get Interview Readiness Score
-    const scoreResponse = await fetch(`${BASE_URL}/get-score`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ resume_skills: resumeSkills, jd_skills: jdSkills }),
-    });
-    const scoreData = await handleResponse(scoreResponse);
-
-    // 4. Analyze Skill Gaps
-    const gapResponse = await fetch(`${BASE_URL}/analyze-gap`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ resume_skills: resumeSkills, jd_skills: jdSkills }),
-    });
-    const gapData = await handleResponse(gapResponse);
-    const missingSkills = gapData.missing_skills;
-
-    // 5. Generate Adaptive Roadmap
-    const roadmapResponse = await fetch(`${BASE_URL}/generate-roadmap`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ missing_skills: missingSkills, user_skills: resumeSkills }),
-    });
-    const roadmapData = await handleResponse(roadmapResponse);
-
+    // Return full 10-output contract + backward-compat fields
     return {
-      score: scoreData.score,
-      reasoning: scoreData.reasoning,
-      tier: scoreData.tier,
-      trainingWeeks: scoreData.training_weeks,
-      hiringRecommendation: scoreData.hiring_recommendation,
-      skills: resumeSkills,
-      skillsFull: resumeSkillsFull,
-      missingSkills: missingSkills,
-      roadmap: roadmapData.roadmap,
-      jdSkills: jdSkills
+      // Core 10 Outputs
+      extracted_skills:      data.extracted_skills || [],
+      verified_scores:       data.verified_scores || [],
+      ranked_gaps:           data.ranked_gaps || [],
+      optimal_path:          data.optimal_path || {},
+      alternative_path:      data.alternative_path || {},
+      time_estimate:         data.time_estimate || {},
+      reasoning_trace:       data.reasoning_trace || [],
+      system_confidence:     data.system_confidence || {},
+      risk_prediction:       data.risk_prediction || [],
+      hiring_recommendation: data.hiring_recommendation || {},
+      // Backward compat for existing components
+      score:                 data.score || 0,
+      tier:                  data.tier || "Potential Growth",
+      training_weeks:        data.training_weeks || 0,
+      hiringRecommendation:  data.hiringRecommendation || "",
+      skills:                data.skills || [],
+      skillsFull:            data.skillsFull || [],
+      missingSkills:         data.missingSkills || [],
+      jdSkills:              data.jdSkills || [],
+      roadmap:               data.roadmap || [],
+      auto_inserted:         data.auto_inserted_prerequisites || [],
     };
+
   } catch (error) {
-    console.error("Full-Stack Integration Error:", error);
-    // Add specific context for UI display
+    console.error("AI Decision Engine — Pipeline Error:", error);
     if (error.message.includes("422")) {
       error.message = "The AI Engine could not process the provided files. Please ensure the resume is a valid PDF or Text file.";
     } else if (error.message.includes("500")) {
-      error.message = "The AI Engine encountered an internal error. This is often due to a missing or invalid OpenAI API key.";
+      error.message = "The AI Engine encountered an internal error. Check backend console for details.";
     }
     throw error;
   }
 };
 
-export const fetchQuiz = async (jdSkills, resumeSkills) => {
+export const fetchQuiz = async (jdSkills, resumeSkills, verifiedScores = {}) => {
   try {
+    // Build a simple {skill: score} map from the verifiedScores array
+    const scoresMap = {};
+    if (Array.isArray(verifiedScores)) {
+      verifiedScores.forEach(item => {
+        if (item?.skill && item?.current_score != null) {
+          scoresMap[item.skill] = item.current_score;
+        }
+      });
+    } else if (verifiedScores && typeof verifiedScores === 'object') {
+      Object.assign(scoresMap, verifiedScores);
+    }
+
     const response = await fetch(`${BASE_URL}/generate-quiz`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jd_skills: jdSkills, resume_skills: resumeSkills }),
+      body: JSON.stringify({
+        jd_skills:       jdSkills,
+        resume_skills:   resumeSkills,
+        verified_scores: scoresMap,
+      }),
     });
     return await handleResponse(response);
   } catch (error) {
@@ -103,6 +97,6 @@ export const fetchQuiz = async (jdSkills, resumeSkills) => {
 };
 
 export const submitQuizResults = async (score, total) => {
-  console.log("Submitting quiz results to backend...", { score, total });
+  console.log("Submitting quiz results...", { score, total });
   return { success: true, updatedReadiness: 85 };
 };

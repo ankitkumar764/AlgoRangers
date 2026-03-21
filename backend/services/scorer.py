@@ -12,7 +12,27 @@ def calculate_readiness_score(resume_skills: list[str], jd_skills: list[str]) ->
     
     reasoning = f"Matched {len(matches)} out of {len(jd_set)} required skills. Missing: {len(jd_skills) - len(matches)}."
     
+    # Advanced Hiring Intelligence Logic
+    missing_count = len(jd_set) - len(matches)
+    
+    # Estimate training (1 week per 2 missing skills, capped at 8)
+    training_weeks = min(max(1, (missing_count // 2)), 8) if missing_count > 0 else 0
+    
+    # Tiering logic
+    if score >= 85:
+        tier = "Elite Match"
+        recommendation = "Direct Hire - Immediate Productivity"
+    elif score >= 60:
+        tier = "Trainable Talent"
+        recommendation = f"Hire with {training_weeks}-week Onboarding"
+    else:
+        tier = "Potential Growth"
+        recommendation = "Consider for Junior/Intern roles"
+
     return {
         "score": score,
-        "reasoning": reasoning
+        "reasoning": reasoning,
+        "tier": tier,
+        "training_weeks": training_weeks,
+        "hiring_recommendation": recommendation
     }
