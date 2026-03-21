@@ -41,11 +41,11 @@ const Hero = ({ onAnalyze }) => {
           AI-Powered Career Engine
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-[1.1] gradient-text tracking-tight">
-          Accelerate Your Career <br /> With Precision
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-[1.1] gradient-text tracking-tight">
+          We don't recommend courses. <br /> We compute optimal learning paths.
         </h1>
-        <p className="text-surface-muted text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
-          Upload your resume and the job description. Our AI will identify skill gaps and generate a personalized learning roadmap.
+        <p className="text-surface-muted text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
+          Upload your resume and job description. Our Decision Engine calculates deterministic confidence scores, enforces graph dependencies, and outputs your fast-tracked path to job readiness.
         </p>
       </motion.div>
 
@@ -118,7 +118,7 @@ const Hero = ({ onAnalyze }) => {
             id="generate-btn"
             className="w-full bg-gradient-to-r from-brand-cyan to-brand-blue text-white py-5 rounded-2xl font-black text-lg shadow-[0_4px_20px_rgba(59,130,246,0.3)] hover:brightness-110 hover:scale-[1.01] transition-all flex items-center justify-center gap-3 group"
           >
-            Generate Adaptive Roadmap 
+            Compute Optimal Path 
             <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>

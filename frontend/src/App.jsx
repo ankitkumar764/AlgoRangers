@@ -189,6 +189,7 @@ function AppContent() {
                   tier={analysisData?.tier}
                   trainingWeeks={analysisData?.training_weeks || analysisData?.trainingWeeks}
                   hiringRecommendation={analysisData?.hiringRecommendation}
+                  verifiedScores={analysisData?.verified_scores}
                   error={error}
                   onRetry={resetAnalysis}
                 />
