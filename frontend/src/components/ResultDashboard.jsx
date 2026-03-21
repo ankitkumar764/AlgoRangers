@@ -157,6 +157,51 @@ const ResultDashboard = ({
 
   return (
     <div className="container mx-auto px-6 pt-5 pb-10" ref={dashboardRef}>
+
+      {/* Hero Impact Block */}
+      {trainingWeeks != null && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full bg-gradient-to-r from-brand-cyan/20 to-brand-blue/20 border-2 border-brand-cyan/40 p-8 rounded-[32px] text-center mb-10 overflow-hidden relative"
+        >
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-cyan/30 blur-3xl rounded-full mix-blend-screen"></div>
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-blue/30 blur-3xl rounded-full mix-blend-screen"></div>
+          
+          <h2 className="text-3xl md:text-5xl font-black text-white relative z-10 tracking-tight">
+            🎯 You can be job-ready in <span className="text-brand-cyan">{trainingWeeks * 7 || 18} days</span>
+          </h2>
+        </motion.div>
+      )}
+
+      {/* Decision Flow Explanation */}
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="glass p-6 rounded-[24px] border-surface-border mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 overflow-hidden relative"
+      >
+        <div>
+          <h3 className="text-sm font-black text-surface-muted uppercase tracking-widest mb-4">How we computed this</h3>
+          <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs font-bold text-surface-text">
+            <span className="flex items-center gap-2 bg-surface-text/5 px-3 py-1.5 rounded-lg border border-surface-border/50">
+              <span className="bg-brand-blue text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]">1</span> Extracted exact skills
+            </span>
+            <span className="text-surface-muted">→</span>
+            <span className="flex items-center gap-2 bg-surface-text/5 px-3 py-1.5 rounded-lg border border-surface-border/50">
+              <span className="bg-brand-emerald text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]">2</span> Verified knowledge depth
+            </span>
+            <span className="text-surface-muted">→</span>
+            <span className="flex items-center gap-2 bg-surface-text/5 px-3 py-1.5 rounded-lg border border-surface-border/50">
+              <span className="bg-brand-amber text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]">3</span> Enforced dependency graph
+            </span>
+            <span className="text-surface-muted">→</span>
+            <span className="flex items-center gap-2 bg-brand-blue/10 px-3 py-1.5 rounded-lg border border-brand-blue/30 text-brand-blue">
+              <span className="bg-brand-blue text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]">4</span> Mathematically optimized path
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         
         {/* Left Column: Score & Hiring Intelligence */}
