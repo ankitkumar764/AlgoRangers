@@ -400,6 +400,34 @@ npm run dev
 # App: http://localhost:5173
 ```
 
+### Docker Setup (Local Development)
+```bash
+# Navigate to project folder
+cd AlgoRangers
+
+# Start all services
+docker-compose up --build
+
+# Services:
+# - Frontend: http://localhost:5173
+# - Backend API: http://localhost:8000
+```
+
+### Manual Setup (Without Docker)
+#### Backend:
+```bash
+cd AlgoRangers/backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+#### Frontend:
+```bash
+cd AlgoRangers/frontend
+npm install
+npm run dev
+```
+
 ### Requirements
 ```
 fastapi>=0.104.0

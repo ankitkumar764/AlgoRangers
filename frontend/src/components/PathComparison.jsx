@@ -62,7 +62,10 @@ const PathComparison = ({ optimalPath, alternativePath }) => {
   if (!optimalPath?.steps?.length && !alternativePath?.steps?.length) return null;
 
   // Determine which is fast and which is deep based on days OR backend flag
-  const isOptimalFast = optimalPath.total_days <= alternativePath.total_days;
+  const optDays = optimalPath?.total_days || 0;
+  const altDays = alternativePath?.total_days || 0;
+  
+  const isOptimalFast = optDays <= altDays;
   const fastPath = isOptimalFast ? optimalPath : alternativePath;
   const deepPath = isOptimalFast ? alternativePath : optimalPath;
   
@@ -84,9 +87,9 @@ const PathComparison = ({ optimalPath, alternativePath }) => {
             <div className="bg-[#0a0a0a] border border-surface-border p-3 rounded-xl mt-4 inline-flex">
               <pre className="text-xs text-brand-emerald font-mono">
                 {`{
-  "fast_time": "${fastPath.total_days} days",
-  "deep_time": "${deepPath.total_days} days",
-  "delta": "${Math.abs(deepPath.total_days - fastPath.total_days)} days"
+  "fast_time": "${fastPath?.total_days || 0} days",
+  "deep_time": "${deepPath?.total_days || 0} days",
+  "delta": "${Math.abs((deepPath?.total_days || 0) - (fastPath?.total_days || 0))} days"
 }`}
               </pre>
             </div>

@@ -23,6 +23,7 @@ const ResultDashboard = ({
   tier, 
   trainingWeeks, 
   hiringRecommendation, 
+  verifiedScores,
   error, 
   onRetry 
 }) => {
@@ -266,11 +267,11 @@ const ResultDashboard = ({
               <ShieldCheck className="text-brand-emerald" size={24} /> Skill Confidence Display
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {verifiedScores ? Object.entries(verifiedScores).map(([skillName, confidenceNum], index) => (
+              {Array.isArray(verifiedScores) && verifiedScores.length > 0 ? verifiedScores.map((item, index) => (
                 <div key={index} className="bg-surface-text/5 border border-surface-border p-4 rounded-2xl flex flex-col gap-2 hover:bg-surface-text/10 transition-colors">
                   <div className="flex justify-between items-center px-1">
                     <span className="text-sm font-black text-surface-text">
-                      {skillName} <span className="text-brand-blue font-bold px-2">→</span> {Math.round(confidenceNum * 100)}%
+                      {item.skill} <span className="text-brand-blue font-bold px-2">→</span> {Math.round((item.current_score || 0) * 100)}%
                     </span>
                     <span className="text-[10px] font-black text-brand-emerald uppercase tracking-tighter bg-brand-emerald/10 px-2 py-0.5 rounded-md">
                       AI Verified
@@ -279,7 +280,7 @@ const ResultDashboard = ({
                   <div className="h-1.5 w-full bg-surface-text/10 rounded-full overflow-hidden">
                     <motion.div 
                       initial={{ width: 0 }}
-                      animate={{ width: `${confidenceNum * 100}%` }}
+                      animate={{ width: `${(item.current_score || 0) * 100}%` }}
                       transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
                       className="h-full bg-brand-emerald shadow-[0_0_10px_rgba(16,185,129,0.5)]"
                     ></motion.div>
