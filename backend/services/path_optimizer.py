@@ -121,7 +121,10 @@ def generate_paths(
         }
 
     path_a = build_path_summary(path_a_skills, "Path A — Fast-Track", multiplier=1.0)
-    path_b = build_path_summary(path_b_skills, "Path B — Deep Learning", multiplier=1.5) # Deep learning takes 50% longer
+    path_b = build_path_summary(path_b_skills, "Path B — Deep Learning", multiplier=1.5)
+    
+    # Enforce a minimum "Deep Dive" overhead for Path B to make it distinct
+    path_b["total_days"] += 5  # Add 5 days for deep theoretical reviews & projects
 
     # Logic: If Deep Learning is actually faster (unlikely with 1.5x), recommend it
     if path_b["total_days"] < path_a["total_days"]:
