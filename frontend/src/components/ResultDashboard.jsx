@@ -16,15 +16,15 @@ const CATEGORIES = {
 };
 
 const ResultDashboard = ({ 
-  score, 
-  skills, 
-  skillsFull,
-  missingSkills, 
-  tier, 
-  trainingWeeks, 
-  hiringRecommendation, 
-  verifiedScores,
-  error, 
+  score = 0, 
+  skills = [], 
+  skillsFull = [],
+  missingSkills = [], 
+  tier = "Elite Match", 
+  trainingWeeks = 2, 
+  hiringRecommendation = "Direct Hire Recommended", 
+  internalScores = [], // Formerly verifiedScores, renamed for safety
+  error = null, 
   onRetry 
 }) => {
   const dashboardRef = useRef(null);
@@ -267,7 +267,7 @@ const ResultDashboard = ({
               <ShieldCheck className="text-brand-emerald" size={24} /> Skill Confidence Display
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {Array.isArray(verifiedScores) && verifiedScores.length > 0 ? verifiedScores.map((item, index) => (
+              {Array.isArray(internalScores) && internalScores.length > 0 ? internalScores.map((item, index) => (
                 <div key={index} className="bg-surface-text/5 border border-surface-border p-4 rounded-2xl flex flex-col gap-2 hover:bg-surface-text/10 transition-colors">
                   <div className="flex justify-between items-center px-1">
                     <span className="text-sm font-black text-surface-text">
