@@ -334,9 +334,9 @@ async def run_full_analysis(
         "optimal_path":        path_a if path_a.get("recommended") else path_b,
         "alternative_path":    path_b if path_a.get("recommended") else path_a,
         "time_estimate":       {
-            "total_days": total_days,
+            "total_days": int(total_days),
             "total_weeks": round(total_days / 7, 1),
-            "estimated_completion": f"~{total_days} days ({round(total_days / 7, 1)} weeks)"
+            "estimated_completion": f"~{int(total_days)} days ({round(total_days / 7, 1)} weeks)"
         },
         "reasoning":           reasoning_trace,
         "risk":                risks,

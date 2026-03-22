@@ -47,7 +47,7 @@ const PathCard = ({ path, isRecommended, title }) => {
         <h5 className="text-[10px] uppercase font-black tracking-widest text-surface-muted mb-3">Computed Skill Trace</h5>
         <div className="flex flex-wrap gap-2">
           {steps.map((step, i) => (
-            <span key={i} className="text-[11px] font-bold bg-[#0a0a0a] border border-surface-border/80 px-3 py-1.5 rounded-xl text-surface-text">
+            <span key={i} className="text-[11px] font-bold bg-surface-text/[0.08] border border-surface-border px-3 py-1.5 rounded-xl text-surface-text">
               {step.skill}
               {step.transfer_applied && <span className="text-brand-emerald ml-1">⚡</span>}
             </span>
