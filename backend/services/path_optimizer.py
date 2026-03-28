@@ -65,27 +65,29 @@ def generate_paths(
     """
     all_costs = {s: compute_skill_cost(s, user_skills, auto_inserted, skill_gaps) for s in ordered_skills}
 
-    # Path A: Only high-importance skills
+    # Path A: Only very high importance skills
     path_a_skills = [
         s for s in ordered_skills
-        if SKILL_ONTOLOGY.get(s, {}).get("importance", 0) >= 0.80
+        if SKILL_ONTOLOGY.get(s, {}).get("importance", 0) >= 0.90
     ]
     if not path_a_skills:
         path_a_skills = ordered_skills[:max(len(ordered_skills) // 2, 1)]
 
-    # Path B: All skills in topological order
+    # Path B: All skills
     path_b_skills = ordered_skills
 
-    def build_path_summary(skill_list: List[str], path_name: str) -> Dict:
+    def build_path_summary(skill_list: List[str], path_name: str, multiplier: float = 1.0) -> Dict:
         steps = []
         total_time = 0
         total_diff = 0
 
         for rank, skill in enumerate(skill_list, 1):
-            cost = all_costs.get(skill, {})
+            cost_data = all_costs.get(skill, {})
             meta = SKILL_ONTOLOGY.get(skill, {})
             time_red, conf_boost = _apply_transfer_learning(skill, user_skills)
-            eff_time = cost.get("effective_time", 7)
+            
+            # Apply mastery multiplier to the effective time
+            eff_time = round(cost_data.get("effective_time", 7) * multiplier)
             total_time += eff_time
             total_diff += meta.get("difficulty", 2)
 
@@ -110,19 +112,27 @@ def generate_paths(
         return {
             "path_name": path_name,
             "steps": steps,
-            "total_days": total_time,
+            "total_days": int(total_time),
             "skill_count": len(skill_list),
             "skill_coverage": skill_coverage,
             "avg_difficulty": avg_diff,
             "risk_score": risk_score,
+            "recommended": path_name == "Path A — Fast-Track" # Default recommendation for speed
         }
 
-    path_a = build_path_summary(path_a_skills, "Path A — Fast-Track")
-    path_b = build_path_summary(path_b_skills, "Path B — Deep Learning")
+    path_a = build_path_summary(path_a_skills, "Path A — Fast-Track", multiplier=1.0)
+    path_b = build_path_summary(path_b_skills, "Path B — Deep Learning", multiplier=1.5)
+    
+    # Enforce a minimum "Deep Dive" overhead for Path B to make it distinct
+    path_b["total_days"] += 5  # Add 5 days for deep theoretical reviews & projects
 
-    # Select optimal path
-    path_a["recommended"] = path_a["total_days"] < path_b["total_days"]
-    path_b["recommended"] = not path_a["recommended"]
+    # Logic: If Deep Learning is actually faster (unlikely with 1.5x), recommend it
+    if path_b["total_days"] < path_a["total_days"]:
+        path_b["recommended"] = True
+        path_a["recommended"] = False
+    else:
+        path_a["recommended"] = True
+        path_b["recommended"] = False
 
     # Build justification
     if path_a["recommended"]:

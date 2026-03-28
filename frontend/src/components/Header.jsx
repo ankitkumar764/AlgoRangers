@@ -73,12 +73,12 @@ const Header = ({ onGetStarted, onReset, showDashboard }) => {
         </button>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 font-medium text-slate-400">
+        <nav className="hidden md:flex items-center gap-8 font-medium text-surface-muted">
           {navLinks.map(({ label, action }) => (
             <button
               key={label}
               onClick={action}
-              className="hover:text-slate-50 transition-colors relative group"
+              className="hover:text-surface-text transition-colors relative group"
             >
               {label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-blue group-hover:w-full transition-all duration-300 rounded-full" />
@@ -91,7 +91,7 @@ const Header = ({ onGetStarted, onReset, showDashboard }) => {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2.5 rounded-xl glass hover:bg-white/5 transition-colors text-slate-400 hover:text-slate-50"
+            className="p-2.5 rounded-xl glass hover:bg-white/5 transition-colors text-surface-muted hover:text-surface-text"
             aria-label="Toggle theme"
           >
             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -108,7 +108,7 @@ const Header = ({ onGetStarted, onReset, showDashboard }) => {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2.5 rounded-xl glass text-slate-400 hover:text-slate-50"
+            className="md:hidden p-2.5 rounded-xl glass text-surface-muted hover:text-surface-text"
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -126,7 +126,7 @@ const Header = ({ onGetStarted, onReset, showDashboard }) => {
             <button
               key={label}
               onClick={action}
-              className="text-left text-slate-300 font-bold hover:text-slate-50 transition-colors py-1"
+              className="text-left text-surface-muted font-bold hover:text-surface-text transition-colors py-1"
             >
               {label}
             </button>

@@ -86,7 +86,7 @@ const Roadmap = ({ steps }) => {
                   <div className="mt-4 pt-4 border-t border-surface-border">
                     <pre className="text-xs text-brand-emerald font-mono bg-[#0a0a0a] p-4 rounded-xl overflow-x-auto border border-surface-border shadow-inner leading-relaxed">
                       {JSON.stringify({
-                        skill: step.skill || step.title.replace('Master ', ''),
+                        skill: step.skill || (step.title ? step.title.replace('Master ', '') : 'Unknown Skill'),
                         why: [
                           step.reasoning ? "Missing in resume or needs upskilling" : "Required prerequisite",
                           `JD Importance: ${Math.round((step.importance || 0.7) * 100)}%`,

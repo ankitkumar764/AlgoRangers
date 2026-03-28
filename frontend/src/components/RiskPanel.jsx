@@ -10,8 +10,9 @@ const SEVERITY_CONFIG = {
 
 const SystemConfidenceMeter = ({ confidence }) => {
   if (!confidence) return null;
-  const pct = Math.round(confidence.score * 100);
-  const isLow = confidence.flag === 'low_confidence';
+  const score = confidence?.score ?? 0;
+  const pct = Math.round(score * 100);
+  const isLow = confidence?.flag === 'low_confidence';
 
   return (
     <div className={`glass border rounded-[24px] p-5 ${isLow ? 'border-brand-amber/30 bg-brand-amber/5' : 'border-brand-emerald/30 bg-brand-emerald/5'} flex flex-col h-full`}>
@@ -34,10 +35,10 @@ const SystemConfidenceMeter = ({ confidence }) => {
       <div className="bg-[#0a0a0a] border border-surface-border rounded-xl p-4 mt-auto">
         <pre className="text-[10px] text-brand-emerald font-mono leading-relaxed overflow-x-auto">
 {JSON.stringify({
-  system_confidence: Number(confidence.score.toFixed(2)),
-  data_quality: Number(confidence.data_quality.toFixed(2)),
-  validation_strength: Number(confidence.validation_strength.toFixed(2)),
-  model_certainty: Number(confidence.model_certainty.toFixed(2))
+  system_confidence: Number((confidence?.score ?? 0).toFixed(2)),
+  data_quality: Number((confidence?.data_quality ?? 0).toFixed(2)),
+  validation_strength: Number((confidence?.validation_strength ?? 0).toFixed(2)),
+  model_certainty: Number((confidence?.model_certainty ?? 0).toFixed(2))
 }, null, 2)}
         </pre>
       </div>
@@ -66,7 +67,7 @@ const RiskPanel = ({ risks, systemConfidence, timeEstimate }) => {
           </div>
           {timeEstimate?.estimated_completion && (
             <div className="glass px-6 py-4 rounded-3xl border border-brand-blue/20 text-center bg-brand-blue/5">
-              <span className="text-3xl font-black text-brand-blue block leading-none">{timeEstimate.total_days} Days</span>
+              <span className="text-3xl font-black text-brand-blue block leading-none">{Math.round(timeEstimate.total_days)} Days</span>
               <p className="text-xs text-surface-muted font-bold uppercase tracking-widest mt-2">Time-To-Job-Ready</p>
             </div>
           )}

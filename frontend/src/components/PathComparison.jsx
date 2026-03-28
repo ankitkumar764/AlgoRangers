@@ -23,7 +23,7 @@ const PathCard = ({ path, isRecommended, title }) => {
           )}
         </div>
         <div className="text-right">
-          <span className="text-4xl font-black text-brand-blue">{path.total_days}</span>
+          <span className="text-4xl font-black text-brand-blue">{Math.round(path.total_days)}</span>
           <p className="text-xs text-surface-muted font-bold uppercase tracking-widest">Days Required</p>
         </div>
       </div>
@@ -47,7 +47,7 @@ const PathCard = ({ path, isRecommended, title }) => {
         <h5 className="text-[10px] uppercase font-black tracking-widest text-surface-muted mb-3">Computed Skill Trace</h5>
         <div className="flex flex-wrap gap-2">
           {steps.map((step, i) => (
-            <span key={i} className="text-[11px] font-bold bg-[#0a0a0a] border border-surface-border/80 px-3 py-1.5 rounded-xl text-surface-text">
+            <span key={i} className="text-[11px] font-bold bg-surface-text/[0.08] border border-surface-border px-3 py-1.5 rounded-xl text-surface-text">
               {step.skill}
               {step.transfer_applied && <span className="text-brand-emerald ml-1">⚡</span>}
             </span>
@@ -62,7 +62,10 @@ const PathComparison = ({ optimalPath, alternativePath }) => {
   if (!optimalPath?.steps?.length && !alternativePath?.steps?.length) return null;
 
   // Determine which is fast and which is deep based on days OR backend flag
-  const isOptimalFast = optimalPath.total_days <= alternativePath.total_days;
+  const optDays = optimalPath?.total_days || 0;
+  const altDays = alternativePath?.total_days || 0;
+  
+  const isOptimalFast = optDays <= altDays;
   const fastPath = isOptimalFast ? optimalPath : alternativePath;
   const deepPath = isOptimalFast ? alternativePath : optimalPath;
   
@@ -84,9 +87,9 @@ const PathComparison = ({ optimalPath, alternativePath }) => {
             <div className="bg-[#0a0a0a] border border-surface-border p-3 rounded-xl mt-4 inline-flex">
               <pre className="text-xs text-brand-emerald font-mono">
                 {`{
-  "fast_time": "${fastPath.total_days} days",
-  "deep_time": "${deepPath.total_days} days",
-  "delta": "${Math.abs(deepPath.total_days - fastPath.total_days)} days"
+  "fast_time": "${Math.round(fastPath?.total_days || 0)} days",
+  "deep_time": "${Math.round(deepPath?.total_days || 0)} days",
+  "delta": "${Math.round(Math.abs((deepPath?.total_days || 0) - (fastPath?.total_days || 0)))} days"
 }`}
               </pre>
             </div>

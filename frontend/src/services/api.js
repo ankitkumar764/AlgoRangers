@@ -3,7 +3,7 @@
  * Unified /analyze endpoint: deterministic, explainable, graph-optimized.
  */
 
-const BASE_URL = 'https://algorangers-backend.onrender.com';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://algorangers-backend.onrender.com';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
